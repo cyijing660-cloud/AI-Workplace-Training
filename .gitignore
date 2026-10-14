@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+.trae/
+.idea/
+.codebuddy/
+*.iml
+venv/
+env/
+.DS_Store
+Thumbs.db
+
+# Cowork / EvoX 产出目录
+2026-*/
+
+# 部署配置（含敏感信息时）
+render.yaml

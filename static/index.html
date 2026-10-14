@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 职场训练</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: radial-gradient(ellipse at center, #0a0f24 0%, #050814 100%);
+            color: #e0e7ff;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .neon-border {
+            border: 2px solid transparent;
+            background: linear-gradient(#0a0f24, #0a0f24) padding-box,
+                        linear-gradient(135deg, #00f0ff, #8b5cf6, #00f0ff) border-box;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.3),
+                        inset 0 0 20px rgba(139, 92, 246, 0.1);
+        }
+
+        .neon-border-subtle {
+            border: 1px solid transparent;
+            background: linear-gradient(#0d1430, #0d1430) padding-box,
+                        linear-gradient(135deg, rgba(0, 240, 255, 0.5), rgba(139, 92, 246, 0.5)) border-box;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+        }
+
+        .glass-panel {
+            background: rgba(13, 20, 48, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+        }
+
+        .neon-text {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.8),
+                         0 0 20px rgba(0, 240, 255, 0.6),
+                         0 0 30px rgba(0, 240, 255, 0.4);
+        }
+
+        .neon-btn {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(139, 92, 246, 0.15));
+            border: 1px solid rgba(0, 240, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .neon-btn:hover {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.3), rgba(139, 92, 246, 0.3));
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .upload-zone {
+            border: 2px dashed rgba(0, 240, 255, 0.4);
+            background: rgba(0, 240, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .upload-zone:hover {
+            border-color: rgba(0, 240, 255, 0.8);
+            background: rgba(0, 240, 255, 0.1);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #00f0ff, #8b5cf6, #00f0ff);
+            background-size: 200% 100%;
+            animation: shimmer 2s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .particle-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(0, 240, 255, 0.6);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .star-effect {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff, 0 0 20px #00f0ff;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: rgba(0, 240, 255, 0.05);
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00f0ff, #8b5cf6);
+            border-radius: 3px;
+        }
+
+        .chat-bubble-user {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(0, 240, 255, 0.2));
+            border: 1px solid rgba(139, 92, 246, 0.4);
+        }
+
+        .chat-bubble-boss {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+            border: 1px solid rgba(0, 240, 255, 0.2);
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #00f0ff;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+            box-shadow: 0 0 10px #00f0ff;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+            30% { transform: translateY(-8px); opacity: 1; }
+        }
+
+        .pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .number-badge {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+            border: 1px solid rgba(0, 240, 255, 0.5);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            color: #00f0ff;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #00f0ff;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+
+        .sidebar-item.active {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(139, 92, 246, 0.15));
+            border: 1px solid rgba(0, 240, 255, 0.4);
+        }
+
+        .video-upload-container {
+            background: linear-gradient(135deg, rgba(13, 20, 48, 0.9), rgba(15, 23, 42, 0.95));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-upload-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 70% 50%, rgba(0, 240, 255, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .star-field {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="h-screen overflow-hidden">
+    <!-- 粒子背景 -->
+    <div class="particle-bg" id="particles"></div>
+
+    <!-- 主容器 -->
+    <div class="flex h-full relative z-10 p-4 gap-4">
+        <!-- 左侧面板 - 内容导入 -->
+        <aside class="w-80 flex flex-col gap-4 flex-shrink-0">
+            <!-- Logo -->
+            <div class="neon-border-subtle rounded-2xl p-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center">
+                        <i data-lucide="briefcase" class="w-5 h-5 text-slate-900"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg text-cyan-300 neon-text" style="font-family: 'Orbitron', sans-serif;">AI 职场训练</h1>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 导入方式选择 -->
+            <div class="glass-panel rounded-2xl p-4 flex-1 overflow-y-auto scrollbar-thin">
+                <h3 class="text-xs font-medium text-cyan-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <i data-lucide="upload-cloud" class="w-4 h-4"></i>
+                    内容导入
+                </h3>
+
+                <!-- 导入方式按钮 -->
+                <div class="space-y-2 mb-6">
+                    <button onclick="setImportType('file')" id="tab-file" class="sidebar-item active w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm text-cyan-100 transition-all neon-border-subtle">
+                        <i data-lucide="video" class="w-4 h-4 text-cyan-400"></i>
+                        <span>点击上传视频</span>
+                    </button>
+                    <button onclick="setImportType('url')" id="tab-url" class="sidebar-item w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm text-slate-400 transition-all hover:text-cyan-100">
+                        <i data-lucide="link" class="w-4 h-4"></i>
+                        <span>视频链接</span>
+                    </button>
+                    <button onclick="setImportType('text')" id="tab-text" class="sidebar-item w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm text-slate-400 transition-all hover:text-cyan-100">
+                        <i data-lucide="file-text" class="w-4 h-4"></i>
+                        <span>粘贴文案</span>
+                    </button>
+                </div>
+
+                <!-- 文件上传 -->
+                <div id="import-file" class="space-y-4">
+                    <div class="upload-zone rounded-xl p-6 text-center cursor-pointer" onclick="document.getElementById('video-file').click()">
+                        <input type="file" id="video-file" accept="video/*" class="hidden" onchange="handleFileSelect(event)">
+                        <div class="flex flex-col items-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-slate-800/50 flex items-center justify-center">
+                                <i data-lucide="video" class="w-6 h-6 text-cyan-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-cyan-100">点击上传视频</p>
+                                <p class="text-xs text-slate-500 mt-1">MP4, MOV, AVI</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p id="file-name" class="text-xs text-cyan-400 text-center hidden"></p>
+                </div>
+
+                <!-- URL 输入 -->
+                <div id="import-url" class="space-y-4 hidden">
+                    <input type="url" id="video-url" placeholder="粘贴视频链接..." class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-sm text-cyan-100 placeholder-slate-500 focus:border-cyan-400 transition-all">
+                </div>
+
+                <!-- 文本输入 -->
+                <div id="import-text" class="space-y-4 hidden">
+                    <textarea id="video-text" rows="6" placeholder="粘贴视频文案或字幕内容..." class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-sm text-cyan-100 placeholder-slate-500 focus:border-cyan-400 transition-all resize-none"></textarea>
+                </div>
+
+                <!-- 开始提取按钮 -->
+                <button onclick="processVideo()" id="process-btn" class="neon-btn w-full py-3 px-4 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 mt-6">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    <span class="text-cyan-200">开始提取</span>
+                </button>
+
+                <!-- 处理结果 -->
+                <div id="processed-section" class="space-y-4 mt-6 hidden">
+                    <h3 class="text-xs font-medium text-cyan-400 uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i>
+                        处理结果
+                    </h3>
+                    <div class="glass-panel rounded-xl p-3 border border-cyan-500/30">
+                        <p id="cleaned-text" class="text-xs text-slate-300 leading-relaxed max-h-32 overflow-y-auto scrollbar-thin"></p>
+                    </div>
+                    <button onclick="analyzeVideo()" id="analyze-btn" class="neon-btn w-full py-3 px-4 rounded-xl text-sm font-semibold flex items-center justify-center gap-2">
+                        <i data-lucide="lightbulb" class="w-4 h-4 text-yellow-400"></i>
+                        <span class="text-cyan-200">快速了解</span>
+                    </button>
+                </div>
+
+                <!-- 分析结果 -->
+                <div id="analysis-section" class="space-y-4 mt-6 hidden">
+                    <h3 class="text-xs font-medium text-purple-400 uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="lightbulb" class="w-4 h-4 text-purple-400"></i>
+                        AI 理解分析结果
+                    </h3>
+                    <div class="bg-gradient-to-br from-cyan-900/20 to-purple-900/20 rounded-xl p-4 border border-cyan-500/30">
+                        <div id="analysis-content" class="text-sm text-slate-200 leading-relaxed whitespace-pre-wrap"></div>
+                    </div>
+                    <button onclick="parseVideo()" class="neon-btn w-full py-3 px-4 rounded-xl text-sm font-semibold flex items-center justify-center gap-2">
+                        <i data-lucide="message-circle" class="w-4 h-4 text-green-400"></i>
+                        <span class="text-cyan-200">开始对话</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 中间主内容区 -->
+        <main class="flex-1 flex flex-col gap-4 min-w-0">
+            <!-- 视频上传/处理区 -->
+            <div class="neon-border rounded-2xl p-6 video-upload-container relative" id="upload-container">
+                <div class="star-field" id="star-field"></div>
+                <div class="relative z-10">
+                    <!-- 视频上传显示 -->
+                    <div id="video-upload-display" class="flex flex-col items-center justify-center py-12">
+                        <div class="w-20 h-20 rounded-2xl bg-slate-800/50 flex items-center justify-center mb-4 border border-cyan-500/30">
+                            <i data-lucide="video" class="w-10 h-10 text-cyan-400"></i>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-lg font-medium text-cyan-200 mb-2">请先上传培训视频</p>
+                            <p class="text-sm text-slate-500">选择视频或粘贴链接，AI 解析后开启对话学习</p>
+                        </div>
+                    </div>
+
+                    <!-- 处理中显示 -->
+                    <div id="processing-display" class="hidden flex flex-col items-center justify-center py-8">
+                        <div class="w-20 h-20 rounded-2xl bg-slate-800/50 flex items-center justify-center mb-4 border border-cyan-500/30 relative">
+                            <div class="absolute inset-0 rounded-2xl border-2 border-cyan-400 pulse-ring"></div>
+                            <i data-lucide="cpu" class="w-10 h-10 text-cyan-400"></i>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-lg font-medium text-cyan-200 mb-2">视频上传与 AI 解析中...</p>
+                            <p class="text-sm text-slate-500 mb-6">正在保存培训视频，AI 提取知识内容与对话</p>
+                            <!-- 进度条 -->
+                            <div class="w-full max-w-md mx-auto">
+                                <div class="h-2 bg-slate-800 rounded-full overflow-hidden mb-2">
+                                    <div class="progress-bar h-full rounded-full" id="progress-bar" style="width: 0%"></div>
+                                </div>
+                                <p class="text-xs text-cyan-400 font-mono" id="progress-text">Processing... 0%</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 视频已上传显示 -->
+                    <div id="video-uploaded-display" class="hidden">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-16 h-16 rounded-xl bg-slate-800/50 flex items-center justify-center border border-cyan-500/30">
+                                <i data-lucide="video" class="w-8 h-8 text-cyan-400"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-lg font-medium text-cyan-200" id="uploaded-video-name">培训视频.mp4</p>
+                                <p class="text-sm text-slate-500">128.5 MB</p>
+                            </div>
+                            <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/20 border border-green-500/40">
+                                <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                                <span class="text-xs text-green-400">上传完成</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 内容区 -->
+            <div class="flex-1 flex gap-4 min-h-0">
+                <!-- AI 分析结果 -->
+                <div class="flex-1 flex flex-col min-h-0">
+                    <div class="glass-panel rounded-2xl p-6 flex-1 overflow-y-auto scrollbar-thin neon-border-subtle">
+                        <h3 class="text-lg font-bold text-cyan-300 mb-4 flex items-center gap-2">
+                            <i data-lucide="brain" class="w-5 h-5 text-blue-400"></i>
+                            AI 理解分析结果
+                        </h3>
+                        <div id="ai-analysis-content" class="text-slate-300 leading-relaxed">
+                            <p class="mb-4">这是一段 <span class="text-cyan-400 font-semibold">高阶职场、高智商、高情商</span> 的沟通。老板来找你沟通，是想给你赋能，<span class="text-purple-400 font-semibold">不是给你施压</span>。可以明显感觉到你是 <span class="text-cyan-400 font-semibold">会来事的、会做事的</span>，90% 老板都不会拒绝这样的人。</p>
+                            <h4 class="text-cyan-400 font-bold mt-6 mb-3 flex items-center gap-2">
+                                <i data-lucide="hand-coins" class="w-5 h-5"></i>
+                                你值得向领导学习的 3 个点：
+                            </h4>
+                            <ol class="space-y-3 mb-4">
+                                <li class="flex items-start gap-2">
+                                    <span class="number-badge shrink-0 mt-0.5">1</span>
+                                    <span><strong class="text-purple-400">反向赋能能力</strong>：你跟着老板的目的不是拿薪资的，是做老板的特种部队，跟着他的眼睛看得远一些</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="number-badge shrink-0 mt-0.5">2</span>
+                                    <span><strong class="text-purple-400">价值感思维执行</strong>：不要等谁来给你安排，看哪个事有价值，你就挑最有价值的事做，做了老板喜欢的事，做了更有价值的事</span>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 核心要点提炼 -->
+                <div class="w-80 flex flex-col min-h-0">
+                    <div class="glass-panel rounded-2xl p-6 flex-1 overflow-y-auto scrollbar-thin neon-border-subtle">
+                        <h3 class="text-lg font-bold text-cyan-300 mb-4 flex items-center gap-2">
+                            <i data-lucide="layers" class="w-5 h-5 text-blue-400"></i>
+                            核心要点提炼
+                        </h3>
+                        <div id="key-points" class="space-y-4">
+                            <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-800/30 border border-slate-700/50 hover:border-cyan-500/30 transition-all">
+                                <span class="number-badge shrink-0">1</span>
+                                <div>
+                                    <p class="font-medium text-cyan-200 text-sm">目标拆解能力</p>
+                                    <p class="text-xs text-slate-500 mt-1">将大目标逐层分解到阶段性、可执行的子目标</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-800/30 border border-slate-700/50 hover:border-cyan-500/30 transition-all">
+                                <span class="number-badge shrink-0">2</span>
+                                <div>
+                                    <p class="font-medium text-cyan-200 text-sm">价值思路执行</p>
+                                    <p class="text-xs text-slate-500 mt-1">给这件事加一个优先级，增强执行力</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-800/30 border border-slate-700/50 hover:border-cyan-500/30 transition-all">
+                                <span class="number-badge shrink-0">3</span>
+                                <div>
+                                    <p class="font-medium text-cyan-200 text-sm">及时反馈沟通</p>
+                                    <p class="text-xs text-slate-500 mt-1">保持与领导高效双向沟通的方式</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-800/30 border border-slate-700/50 hover:border-cyan-500/30 transition-all">
+                                <span class="number-badge shrink-0">4</span>
+                                <div>
+                                    <p class="font-medium text-cyan-200 text-sm">复盘思维</p>
+                                    <p class="text-xs text-slate-500 mt-1">多做视频，积累经验，避免错误重演</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 聊天对话区 -->
+            <div class="glass-panel rounded-2xl p-4 neon-border-subtle" id="chat-container">
+                <!-- 场景信息 -->
+                <div id="scene-info" class="mb-4 hidden">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center">
+                                <i data-lucide="user-tie" class="w-5 h-5 text-cyan-300"></i>
+                            </div>
+                            <div>
+                                <h4 id="scene-title" class="font-medium text-cyan-200">职场场景</h4>
+                                <p id="principles-text" class="text-xs text-slate-500"></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-800/50 border border-slate-700">
+                            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                            <span id="round-indicator" class="text-xs text-slate-400">0/4 轮</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 聊天消息 -->
+                <div id="chat-messages" class="max-h-48 overflow-y-auto scrollbar-thin mb-4 space-y-3 hidden">
+                    <!-- 消息会插入这里 -->
+                </div>
+
+                <!-- 聊天输入 -->
+                <div class="flex items-center gap-3">
+                    <input type="text" id="chat-input" placeholder="回复老板..." class="flex-1 bg-slate-900/50 border border-slate-700 rounded-2xl px-5 py-4 text-sm text-cyan-100 placeholder-slate-500 focus:border-cyan-400 transition-all" onkeydown="handleKeyDown(event)">
+                    <button onclick="sendMessage()" id="send-btn" class="w-12 h-12 rounded-2xl bg-gradient-to-r from-cyan-500 to-purple-500 text-slate-900 flex items-center justify-center hover:shadow-lg hover:shadow-cyan-500/30 transition-all">
+                        <i data-lucide="send" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- 评分面板 -->
+                <div id="score-panel" class="mt-4 hidden">
+                    <button onclick="toggleScorePanel()" class="w-full flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-cyan-900/30 to-purple-900/30 border border-cyan-500/30 hover:border-cyan-400/50 transition-all">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center border border-amber-500/30">
+                                <i data-lucide="trophy" class="w-5 h-5 text-amber-400"></i>
+                            </div>
+                            <div class="text-left">
+                                <h4 class="font-semibold text-cyan-200">AI 点评</h4>
+                                <p class="text-xs text-slate-500">点击展开/收起</p>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-down" id="score-toggle-icon" class="w-5 h-5 text-cyan-400 transition-transform duration-300"></i>
+                    </button>
+                    <div id="score-body" class="mt-3 hidden">
+                        <div id="score-content" class="glass-panel rounded-xl p-5 text-sm text-slate-200 leading-relaxed whitespace-pre-wrap max-h-60 overflow-y-auto scrollbar-thin border border-cyan-500/20"></div>
+                    </div>
+                </div>
+
+                <!-- 操作按钮 -->
+                <div id="action-buttons" class="flex gap-3 mt-4 hidden">
+                    <button onclick="getScore()" id="score-btn" class="neon-btn flex-1 py-3 px-4 rounded-xl text-sm font-medium flex items-center justify-center gap-2">
+                        <i data-lucide="message-square" class="w-4 h-4"></i>
+                        结束对话
+                    </button>
+                    <button onclick="resetChat()" class="neon-btn flex-1 py-3 px-4 rounded-xl text-sm font-medium flex items-center justify-center gap-2">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        重新开始
+                    </button>
+                    <button onclick="nextCase()" id="next-case-btn" class="neon-btn flex-1 py-3 px-4 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 hidden">
+                        下一场景
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 加载遮罩 -->
+    <div id="loading-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md flex items-center justify-center z-50 hidden">
+        <div class="text-center">
+            <div class="w-24 h-24 mx-auto mb-6 relative">
+                <div class="absolute inset-0 rounded-full border-4 border-cyan-500/20"></div>
+                <div class="absolute inset-0 rounded-full border-4 border-transparent border-t-cyan-400 animate-spin"></div>
+                <div class="absolute inset-4 rounded-full border-4 border-transparent border-t-purple-400 animate-spin" style="animation-direction: reverse; animation-duration: 1.5s;"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <i data-lucide="cpu" class="w-8 h-8 text-cyan-400"></i>
+                </div>
+            </div>
+            <p id="loading-text" class="text-cyan-200 text-base font-medium neon-text">处理中...</p>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        let importType = 'file';
+        let cleanedText = '';
+        let analysisText = '';
+        let parsedData = null;
+        let currentCaseIndex = 0;
+        let chatHistory = [];
+        let scoreDone = false;
+        let isTyping = false;
+        let selectedFile = null;
+
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 20) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        function createStars() {
+            const container = document.getElementById('star-field');
+            for (let i = 0; i < 20; i++) {
+                const star = document.createElement('div');
+                star.className = 'star-effect';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                container.appendChild(star);
+            }
+        }
+
+        function setImportType(type) {
+            importType = type;
+            
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+                item.classList.remove('neon-border-subtle');
+                item.classList.remove('text-cyan-100');
+                item.classList.add('text-slate-400');
+            });
+            const activeTab = document.getElementById(`tab-${type}`);
+            activeTab.classList.add('active');
+            activeTab.classList.add('neon-border-subtle');
+            activeTab.classList.add('text-cyan-100');
+            
+            document.querySelectorAll('[id^="import-"]').forEach(area => {
+                area.classList.add('hidden');
+            });
+            document.getElementById(`import-${type}`).classList.remove('hidden');
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                selectedFile = file;
+                document.getElementById('file-name').textContent = `已选择: ${file.name}`;
+                document.getElementById('file-name').classList.remove('hidden');
+            }
+        }
+
+        function showLoading(text) {
+            document.getElementById('loading-text').textContent = text;
+            document.getElementById('loading-overlay').classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            document.getElementById('loading-overlay').classList.add('hidden');
+        }
+
+        function showProcessing() {
+            document.getElementById('video-upload-display').classList.add('hidden');
+            document.getElementById('video-uploaded-display').classList.add('hidden');
+            document.getElementById('processing-display').classList.remove('hidden');
+            
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 100) progress = 100;
+                document.getElementById('progress-bar').style.width = progress + '%';
+                document.getElementById('progress-text').textContent = `Processing... ${Math.round(progress)}%`;
+                if (progress >= 100) {
+                    clearInterval(interval);
+                }
+            }, 300);
+            return interval;
+        }
+
+        function showUploaded(filename = '培训视频.mp4') {
+            document.getElementById('video-upload-display').classList.add('hidden');
+            document.getElementById('processing-display').classList.add('hidden');
+            document.getElementById('video-uploaded-display').classList.remove('hidden');
+            document.getElementById('uploaded-video-name').textContent = filename;
+        }
+
+        async function processVideo() {
+            const formData = new FormData();
+            formData.append('type', importType);
+            
+            if (importType === 'file') {
+                if (!selectedFile) {
+                    alert('请选择视频文件');
+                    return;
+                }
+                formData.append('file', selectedFile);
+            } else if (importType === 'url') {
+                const url = document.getElementById('video-url').value;
+                if (!url) {
+                    alert('请输入视频链接');
+                    return;
+                }
+                formData.append('url', url);
+            } else if (importType === 'text') {
+                const text = document.getElementById('video-text').value;
+                if (!text) {
+                    alert('请粘贴文案内容');
+                    return;
+                }
+                formData.append('text', text);
+            }
+            
+            const interval = showProcessing();
+            showLoading('正在提取文字...');
+            
+            try {
+                const response = await fetch('/api/video/process', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    clearInterval(interval);
+                    showUploaded(importType === 'file' ? document.getElementById('video-file').files[0].name : '内容');
+                    cleanedText = data.cleaned_text;
+                    document.getElementById('cleaned-text').textContent = cleanedText;
+                    document.getElementById('processed-section').classList.remove('hidden');
+                    document.getElementById('analysis-section').classList.add('hidden');
+                } else {
+                    alert('处理失败: ' + (data.detail || '未知错误'));
+                }
+            } catch (error) {
+                alert('请求失败: ' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function analyzeVideo() {
+            showLoading('正在分析内容...');
+            
+            try {
+                const response = await fetch('/api/video/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text: cleanedText })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    analysisText = data.analysis;
+                    document.getElementById('analysis-content').textContent = analysisText;
+                    document.getElementById('ai-analysis-content').innerHTML = `<p class="whitespace-pre-wrap">${analysisText}</p>`;
+                    document.getElementById('analysis-section').classList.remove('hidden');
+                } else {
+                    alert('分析失败: ' + (data.detail || '未知错误'));
+                }
+            } catch (error) {
+                alert('请求失败: ' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function parseVideo() {
+            showLoading('正在解析场景...');
+            
+            try {
+                const response = await fetch('/api/video/parse', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text: cleanedText, analysis: analysisText })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    parsedData = data.parsed_data;
+                    currentCaseIndex = 0;
+                    chatHistory = [];
+                    scoreDone = false;
+                    isTyping = false;
+                    startChat();
+                } else {
+                    alert('解析失败: ' + (data.detail || '未知错误'));
+                }
+            } catch (error) {
+                alert('请求失败: ' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function startChat() {
+            document.getElementById('scene-info').classList.remove('hidden');
+            document.getElementById('chat-messages').classList.remove('hidden');
+            document.getElementById('action-buttons').classList.remove('hidden');
+            document.getElementById('score-btn').classList.remove('hidden');
+            document.getElementById('next-case-btn').classList.add('hidden');
+            document.getElementById('score-panel').classList.add('hidden');
+            document.getElementById('score-body').classList.add('hidden');
+            document.getElementById('score-toggle-icon').style.transform = 'rotate(0deg)';
+            
+            const caseData = parsedData.cases[currentCaseIndex];
+            document.getElementById('scene-title').textContent = caseData.scene;
+            document.getElementById('principles-text').textContent = caseData.principles.join(' · ');
+            
+            renderMessages();
+            bossStart();
+        }
+
+        async function bossStart() {
+            isTyping = true;
+            renderMessages();
+            
+            const caseData = parsedData.cases[currentCaseIndex];
+            
+            try {
+                const response = await fetch('/api/chat/boss-start', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ case: caseData, analysis: analysisText })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    chatHistory.push({ role: 'boss', content: data.message });
+                    isTyping = false;
+                    renderMessages();
+                }
+            } catch (error) {
+                alert('请求失败: ' + error.message);
+                isTyping = false;
+            }
+        }
+
+        function renderMessages() {
+            const container = document.getElementById('chat-messages');
+            container.innerHTML = '';
+            
+            chatHistory.forEach((msg, index) => {
+                const isBoss = msg.role === 'boss';
+                const isLast = index === chatHistory.length - 1;
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `flex ${isBoss ? 'justify-start' : 'justify-end'} ${isLast ? 'fade-in' : ''}`;
+                
+                let displayContent = msg.content;
+                let emojiTag = '';
+                if (isBoss) {
+                    const emojiMatch = msg.content.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F)/u);
+                    if (emojiMatch) {
+                        emojiTag = `<span class="text-xl mr-1">${emojiMatch[0]}</span>`;
+                        displayContent = msg.content.slice(emojiMatch[0].length).trim();
+                    }
+                }
+                
+                messageDiv.innerHTML = `
+                    <div class="flex items-start gap-3 max-w-xl ${isBoss ? '' : 'flex-row-reverse'}">
+                        <div class="w-9 h-9 rounded-xl ${isBoss ? 'bg-gradient-to-br from-slate-700 to-slate-800' : 'bg-gradient-to-br from-cyan-500 to-purple-500'} flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="${isBoss ? 'user-tie' : 'user'}" class="w-4 h-4 ${isBoss ? 'text-cyan-300' : 'text-slate-900'}"></i>
+                        </div>
+                        <div class="${isBoss ? 'chat-bubble-boss' : 'chat-bubble-user'} rounded-2xl px-4 py-3">
+                            <p class="text-slate-100 text-sm leading-relaxed">${emojiTag}${displayContent}</p>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(messageDiv);
+            });
+            
+            if (isTyping) {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'flex justify-start fade-in';
+                typingDiv.innerHTML = `
+                    <div class="flex items-start gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="user-tie" class="w-4 h-4 text-cyan-300"></i>
+                        </div>
+                        <div class="chat-bubble-boss rounded-2xl px-5 py-4 flex items-center gap-2">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot" style="animation-delay: 0.2s;"></div>
+                            <div class="typing-dot" style="animation-delay: 0.4s;"></div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(typingDiv);
+            }
+            
+            lucide.createIcons();
+            container.scrollTop = container.scrollHeight;
+            updateRoundIndicator();
+        }
+
+        function updateRoundIndicator() {
+            const userRounds = chatHistory.filter(x => x.role === 'user').length;
+            document.getElementById('round-indicator').textContent = `${userRounds}/4 轮`;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            
+            if (!message || scoreDone || isTyping) return;
+            
+            chatHistory.push({ role: 'user', content: message });
+            input.value = '';
+            isTyping = true;
+            renderMessages();
+            
+            const caseData = parsedData.cases[currentCaseIndex];
+            
+            try {
+                const response = await fetch('/api/chat/boss-reply', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_msg: message,
+                        chat_history: chatHistory,
+                        case: caseData,
+                        analysis: analysisText
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    chatHistory.push({ role: 'boss', content: data.message });
+                    isTyping = false;
+                    renderMessages();
+                    
+                    const userRounds = chatHistory.filter(x => x.role === 'user').length;
+                    if (userRounds >= 4) {
+                        await getScore();
+                    }
+                }
+            } catch (error) {
+                alert('请求失败: ' + error.message);
+                isTyping = false;
+            }
+        }
+
+        async function getScore() {
+            const caseData = parsedData.cases[currentCaseIndex];
+            isTyping = true;
+            scoreDone = true;
+            renderMessages();
+            showLoading('正在评分...');
+            
+            try {
+                const response = await fetch('/api/chat/score', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_history: chatHistory,
+                        case: caseData,
+                        analysis: analysisText
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    scoreDone = true;
+                    isTyping = false;
+                    document.getElementById('score-content').textContent = data.result;
+                    const scorePanel = document.getElementById('score-panel');
+                    scorePanel.classList.remove('hidden');
+                    document.getElementById('score-body').classList.remove('hidden');
+                    document.getElementById('score-toggle-icon').style.transform = 'rotate(180deg)';
+                    document.getElementById('score-btn').classList.add('hidden');
+                    renderMessages();
+                    
+                    if (currentCaseIndex + 1 < parsedData.total_cases) {
+                        document.getElementById('next-case-btn').classList.remove('hidden');
+                    }
+                }
+            } catch (error) {
+                alert('请求失败: ' + error.message);
+                isTyping = false;
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function handleKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function toggleScorePanel() {
+            const body = document.getElementById('score-body');
+            const icon = document.getElementById('score-toggle-icon');
+            if (body.classList.contains('hidden')) {
+                body.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                body.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function resetChat() {
+            chatHistory = [];
+            scoreDone = false;
+            isTyping = false;
+            document.getElementById('score-panel').classList.add('hidden');
+            document.getElementById('score-body').classList.add('hidden');
+            document.getElementById('score-toggle-icon').style.transform = 'rotate(0deg)';
+            startChat();
+        }
+
+        function nextCase() {
+            if (currentCaseIndex + 1 < parsedData.total_cases) {
+                currentCaseIndex++;
+                chatHistory = [];
+                scoreDone = false;
+                isTyping = false;
+                document.getElementById('next-case-btn').classList.add('hidden');
+                startChat();
+            }
+        }
+
+        createParticles();
+        createStars();
+    </script>
+</body>
+</html>
